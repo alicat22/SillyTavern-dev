@@ -265,7 +265,7 @@ function setupOpenAIPromptManager(settings) {
         saveSettingsDebounced();
     }
 
-    promptManager.init(configuration, settings, default_settings);
+    promptManager.init(configuration, settings);
     promptManager.render();
 
 
