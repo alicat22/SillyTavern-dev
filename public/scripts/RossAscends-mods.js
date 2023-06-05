@@ -13,6 +13,9 @@ import {
     menu_type,
     max_context,
     saveSettingsDebounced,
+    eventSource,
+
+
 } from "../script.js";
 
 
@@ -488,7 +491,7 @@ export function dragElement(elmnt) {
     var oldRight = Number((String($(elmnt).css('right')).replace('px', '')))
     var oldBottom = Number((String($(elmnt).css('bottom')).replace('px', '')))
     var elmntName = elmnt.attr('id');
-    console.debug(`${elmntName} init state: 
+    console.debug(`${elmntName} init state:
 T: ${$(elmnt).css('top')}
 L: ${$(elmnt).css('left')}
 W: ${$(elmnt).css('width')}
@@ -836,9 +839,13 @@ $("document").ready(function () {
     // when a char is selected from the list, save them as the auto-load character for next page load
     $(document).on("click", ".character_select", function () {
         const chid = $(this).attr('chid');
-        document.dispatchEvent(new CustomEvent('characterSelected', { detail: {id: chid, character: characters[chid]}}));
-        SaveLocal('ActiveChar', chid);
-        SaveLocal('ActiveGroup', null);
+        eventSource.emit(
+            'characterSelected',
+            {detail: {id: chid, character: characters[chid]}})
+            .then(r => {
+                SaveLocal('ActiveChar', chid);
+                SaveLocal('ActiveGroup', null);
+            });
     });
 
     $(document).on("click", ".group_select", function () {
