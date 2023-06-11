@@ -275,8 +275,6 @@ function setupOpenAIPromptManager(openAiSettings) {
 
     promptManager.init(configuration, openAiSettings);
     promptManager.render();
-
-
 }
 
 function generateOpenAIPromptCache() {
@@ -352,7 +350,7 @@ function formatWorldInfo(value) {
     return stringFormat(oai_settings.wi_format, value);
 }
 
-async function prepareOpenAIMessages({ systemPrompt, name2, charDescription, charPersonality, Scenario, worldInfoBefore, worldInfoAfter, extensionPrompt, bias, type, quietPrompt, jailbreakPrompt, cyclePrompt } = {}) {
+async function prepareOpenAIMessages({ name2, charDescription, charPersonality, Scenario, worldInfoBefore, worldInfoAfter, bias, type, quietPrompt, extensionPrompts, cyclePrompt } = {}) {
     const chatCompletion = promptManager.getChatCompletion();
 
     // Prepare messages
@@ -398,7 +396,16 @@ async function prepareOpenAIMessages({ systemPrompt, name2, charDescription, cha
     }
 
     // Handle extension prompt
-    if (extensionPrompt) chatCompletion.insertAfter('worldInfoAfter', 'extensionPrompt', chatCompletion.makeSystemMessage(substituteParams(extensionPrompt)));
+    if (0 < extensionPrompts.length) {
+        const summary = extensionPrompts['1_memory'];
+        if (summary) chatCompletion.insertAfter('scenario', 'extensionSummary', chatCompletion.makeSystemMessage(substituteParams(summary)));
+
+        const authorsNote = extensionPrompts['2_floating_prompt'];
+        if (authorsNote && (extension_prompt_types.AFTER_SCENARIO === authorsNote.position))
+            chatCompletion.insertAfter('scenario', 'extensionAuthorsNote', chatCompletion.makeSystemMessage(substituteParams(authorsNote)));
+        else
+            chatCompletion.insertAfter('chatHistory', 'extensionAuthorsNote', chatCompletion.makeSystemMessage(substituteParams(authorsNote)));
+    }
 
     // Handle bias settings
     if (bias && bias.trim().length) chatCompletion.add(biasMessage);
