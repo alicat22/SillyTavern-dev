@@ -984,7 +984,7 @@ class ChatCompletion {
         this.validateMessageCollection(collection);
         this.checkTokenBudget(collection, collection.identifier);
 
-        if (position) {
+        if (null !== position && -1 !== position) {
             this.messages.collection[position] = collection;
         } else {
             this.messages.collection.push(collection);
