@@ -451,6 +451,7 @@ export const event_types = {
     SETTINGS_UPDATED: 'settings_updated',
     GROUP_UPDATED: 'group_updated',
     MOVABLE_PANELS_RESET: 'movable_panels_reset',
+    OAI_BEFORE_CHATCOMPLETION: 'oai_before_chatcompletion',
 }
 
 export const eventSource = new EventEmitter();
