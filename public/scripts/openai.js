@@ -596,6 +596,7 @@ function prepareOpenAIMessages({
         }
     } finally {
         promptManager.populateTokenHandler(chatCompletion.getMessages());
+        promptManager.render(false);
     }
 
     const chat = chatCompletion.getChat();
@@ -951,6 +952,10 @@ class TokenHandler {
 
     getCounts() {
         return this.counts;
+    }
+
+    resetCounts() {
+        Object.keys(this.counts).forEach((key) => this.counts[key] = 0 );
     }
 
     setCounts(counts) {
