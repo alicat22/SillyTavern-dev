@@ -89,7 +89,7 @@ import {
     is_get_status_openai,
     openai_messages_count,
     getTokenCountOpenAI,
-    chat_completion_sources, setupClaudePromptManager,
+    chat_completion_sources, setupClaudePromptManager, setupWindowAiPromptManager,
 } from "./scripts/openai.js";
 
 import {
@@ -4121,6 +4121,10 @@ function changeMainAPI() {
         case chat_completion_sources.CLAUDE:
             console.log('Setting up Claude prompt manager');
             setupClaudePromptManager(oai_settings);
+            break;
+        case chat_completion_sources.WINDOWAI:
+            console.log('Setting up WindowAI prompt manager');
+            setupWindowAiPromptManager(oai_settings);
             break;
     }
 }
