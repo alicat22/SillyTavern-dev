@@ -449,9 +449,11 @@ export const event_types = {
     CHAT_CHANGED: 'chat_id_changed',
     GENERATION_STOPPED: 'generation_stopped',
     SETTINGS_UPDATED: 'settings_updated',
+    SETTINGS_LOADED_AFTER: 'settings_loaded_after',
     GROUP_UPDATED: 'group_updated',
     MOVABLE_PANELS_RESET: 'movable_panels_reset',
     OAI_BEFORE_CHATCOMPLETION: 'oai_before_chatcompletion',
+    OAI_PRESET_CHANGED: 'oai_preset_changed',
 }
 
 export const eventSource = new EventEmitter();
@@ -4714,6 +4716,9 @@ async function getSettings(type) {
 
         // Load context templates
         loadContextTemplatesFromSettings(data, settings);
+
+        // Allow subscribers to mutate settings
+        eventSource.emit(event_types.SETTINGS_LOADED_AFTER, settings);
 
         // Set context size after loading power user (may override the max value)
         $("#max_context").val(max_context);
