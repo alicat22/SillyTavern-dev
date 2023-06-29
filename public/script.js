@@ -450,6 +450,7 @@ export const event_types = {
     CHAT_CHANGED: 'chat_id_changed',
     GENERATION_STOPPED: 'generation_stopped',
     SETTINGS_UPDATED: 'settings_updated',
+    SETTINGS_LOADED_BEFORE: 'settings_loaded_before',
     SETTINGS_LOADED_AFTER: 'settings_loaded_after',
     GROUP_UPDATED: 'group_updated',
     MOVABLE_PANELS_RESET: 'movable_panels_reset',
@@ -4625,6 +4626,9 @@ async function getSettings(type) {
                 $("#your_name").val(name1);
             }
         }
+
+        // Allow subscribers to mutate settings before applying any modifiers
+        eventSource.emit(event_types.SETTINGS_LOADED_BEFORE, settings);
 
         //Load KoboldAI settings
         koboldai_setting_names = data.koboldai_setting_names;
