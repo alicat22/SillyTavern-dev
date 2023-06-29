@@ -162,6 +162,7 @@ import { context_settings, loadContextTemplatesFromSettings } from "./scripts/co
 import { markdownExclusionExt } from "./scripts/showdown-exclusion.js";
 import { NOTE_MODULE_NAME, metadata_keys, setFloatingPrompt, shouldWIAddPrompt } from "./scripts/extensions/floating-prompt/index.js";
 import { deviceInfo } from "./scripts/RossAscends-mods.js";
+import {registerPromptManagerMigration} from "./scripts/PromptManager.js";
 
 //exporting functions and vars for mods
 export {
@@ -457,6 +458,9 @@ export const event_types = {
 }
 
 export const eventSource = new EventEmitter();
+
+// Register configuration migrations
+registerPromptManagerMigration();
 
 $(document).ajaxError(function myErrorHandler(_, xhr) {
     if (xhr.status == 403) {
