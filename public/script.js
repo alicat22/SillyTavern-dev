@@ -456,6 +456,8 @@ export const event_types = {
     MOVABLE_PANELS_RESET: 'movable_panels_reset',
     OAI_BEFORE_CHATCOMPLETION: 'oai_before_chatcompletion',
     OAI_PRESET_CHANGED: 'oai_preset_changed',
+    WORLDINFO_SETTINGS_UPDATED: 'worldinfo_settings_updated',
+
 }
 
 export const eventSource = new EventEmitter();
